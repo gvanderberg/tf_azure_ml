@@ -13,5 +13,18 @@ resource "azurerm_storage_account" "this" {
   resource_group_name      = var.resource_group_name
   account_tier             = "Standard"
   account_replication_type = "GRS"
-  tags                     = var.tags
+  min_tls_version          = "TLS1_2"
+
+  identity {
+    type = "SystemAssigned"
+  }
+
+  network_rules {
+    default_action = "Allow"
+    bypass         = ["AzureServices", "Logging", "Metrics"]
+    # ip_rules                   = []
+    # virtual_network_subnet_ids = []
+  }
+
+  tags = var.tags
 }

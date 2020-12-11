@@ -11,7 +11,7 @@ resource "azurerm_container_registry" "this" {
   name                = var.container_registry_name
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
-  sku                 = "Standard"
+  sku                 = var.container_registry_sku
   admin_enabled       = true
 
   network_rule_set {
