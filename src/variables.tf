@@ -1,3 +1,11 @@
+variable "application_insights_create" {
+  default = "__application_insights_create__"
+}
+
+variable "application_insights_name" {
+  default = "__application_insights_name__"
+}
+
 variable "container_registry_create" {
   default = "__container_registry_create__"
 }

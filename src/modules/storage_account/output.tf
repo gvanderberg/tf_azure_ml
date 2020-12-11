@@ -3,5 +3,5 @@ output "id" {
 }
 
 output "primary_connection_string" {
-  value = element(coalescelist(azurerm_resource_group.this.*.primary_connection_string, data.azurerm_resource_group.this.*.primary_connection_string), 0)
+  value = element(coalescelist(azurerm_storage_account.this.*.primary_connection_string, data.azurerm_storage_account.this.*.primary_connection_string), 0)
 }
