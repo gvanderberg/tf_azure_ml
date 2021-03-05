@@ -17,12 +17,12 @@ resource "azurerm_kubernetes_cluster" "this" {
   dns_prefix                      = format("%s-%s", var.kubernetes_cluster_name, "dns")
   kubernetes_version              = var.kubernetes_version
   node_resource_group             = format("%s-%s", var.resource_group_name, "nodes")
-  private_cluster_enabled         = true
+  private_cluster_enabled         = false
   sku_tier                        = "Free"
 
   addon_profile {
     azure_policy {
-      enabled = false
+      enabled = true
     }
 
     http_application_routing {
@@ -30,7 +30,7 @@ resource "azurerm_kubernetes_cluster" "this" {
     }
 
     kube_dashboard {
-      enabled = var.kubernetes_dashboard_enabled
+      enabled = false
     }
 
     oms_agent {
@@ -42,7 +42,7 @@ resource "azurerm_kubernetes_cluster" "this" {
   default_node_pool {
     name                  = "default"
     enable_auto_scaling   = false
-    enable_node_public_ip = true
+    enable_node_public_ip = false
     availability_zones    = [1, 2, 3]
     max_pods              = "110"
     max_count             = var.node_count + 2
@@ -112,77 +112,3 @@ resource "azurerm_role_assignment" "acr" {
 
   depends_on = [azurerm_kubernetes_cluster.this]
 }
-
-# resource "kubernetes_namespace" "ingress-system" {
-#   metadata {
-#     name = "ingress-system"
-#   }
-# }
-
-# resource "kubernetes_secret" "ingress-system-docker-config" {
-#   metadata {
-#     name      = "ingress-system-docker-config"
-#     namespace = "ingress-system"
-#   }
-
-#   data = {
-#     ".dockerconfigjson" = var.docker_config_json
-#   }
-
-#   type = "kubernetes.io/dockerconfigjson"
-# }
-
-resource "helm_release" "ingress_nginx" {
-  name             = "ingress-nginx"
-  repository       = "https://kubernetes.github.io/ingress-nginx"
-  chart            = "ingress-nginx"
-  create_namespace = true
-  max_history      = "3"
-  namespace        = "ingress-system"
-  version          = "3.4.0"
-
-  values = [<<EOF
-controller:
-  image:
-    tag: v0.40.0
-  service:
-    # annotations:
-    #   beta.kubernetes.io/azure-load-balancer-internal: "true"
-    loadBalancerIP: ${var.load_balancer_ip}
-    type: LoadBalancer
-rbac:
-  create: true
-EOF
-  ]
-
-  depends_on = [azurerm_kubernetes_cluster.this, azurerm_role_assignment.net]
-}
-
-# resource "helm_release" "kured" {
-#   name        = "kured"
-#   repository  = "https://weaveworks.github.io/kured"
-#   chart       = "kured"
-#   max_history = "3"
-#   namespace   = "kube-system"
-#   version     = "2.2.0"
-
-#   values = [<<EOF
-# extraArgs:
-#   slack-channel: ${var.slack_channel}
-#   slack-hook-url: ${var.slack_url}
-#   slack-username: ${var.slack_username}
-#   time-zone: Africa/Johannesburg
-#   start-time: 00:00
-#   end-time: 05:00
-# image:
-#   tag: 1.5.0
-# resources:
-#   limits:
-#     cpu: 20m
-#   requests:
-#     cpu: 5m
-# EOF
-#   ]
-
-#   depends_on = [azurerm_kubernetes_cluster.this]
-# }

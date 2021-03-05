@@ -55,13 +55,23 @@ variable "resource_group_name" {
 }
 
 variable "storage_account_create" {
-  description = "Should the storage account be created."
-  type        = bool
+  default = "__storage_account_create__"
 }
 
 variable "storage_account_name" {
-  description = "Specifies the name of the storage account."
-  type        = string
+  default = "__storage_account_name__"
+}
+
+variable "virtual_network_create" {
+  default = "__virtual_network_create__"
+}
+
+variable "virtual_network_name" {
+  default = "__virtual_network_name__"
+}
+
+variable "virtual_network_resource_group_name" {
+  default = "__virtual_network_resource_group_name__"
 }
 
 variable "tags" {

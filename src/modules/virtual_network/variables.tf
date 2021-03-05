@@ -1,10 +1,5 @@
-variable "location" {
+variable "resource_group_location" {
   description = "The location/region where the virtual network is created."
-  type        = string
-}
-
-variable "network_name" {
-  description = "The name of the virtual network."
   type        = string
 }
 
@@ -13,12 +8,17 @@ variable "resource_group_name" {
   type        = string
 }
 
-variable "subnet_name" {
-  description = "The name of the subnet."
+variable "virtual_network_create" {
+  description = "Should the virtual network be created."
+  type        = bool
+}
+
+variable "virtual_network_name" {
+  description = "The name of the virtual network."
   type        = string
 }
 
 variable "tags" {
   description = "A mapping of tags to assign to the resource."
-  type        = map
+  type        = map(any)
 }

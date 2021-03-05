@@ -2,6 +2,16 @@ terraform {
   backend "local" {}
 }
 
+# module "net" {
+#   source = "./modules/virtual_network"
+
+#   virtual_network_create  = var.virtual_network_create
+#   virtual_network_name    = var.virtual_network_name
+#   resource_group_name     = var.virtual_network_resource_group_name
+#   resource_group_location = var.location
+#   tags                    = var.tags
+# }
+
 module "rg" {
   source = "./modules/resource_group"
 
@@ -24,33 +34,42 @@ module "ai" {
 module "cr" {
   source = "./modules/container_registry"
 
-  container_registry_create = var.container_registry_create
-  container_registry_name   = var.container_registry_name
-  container_registry_sku    = var.container_registry_sku
-  resource_group_location   = module.rg.location
-  resource_group_name       = module.rg.name
-  tags                      = var.tags
+  container_registry_create           = var.container_registry_create
+  container_registry_name             = var.container_registry_name
+  container_registry_sku              = var.container_registry_sku
+  resource_group_location             = module.rg.location
+  resource_group_name                 = module.rg.name
+  virtual_network_name                = var.virtual_network_name
+  virtual_network_resource_group_name = var.virtual_network_resource_group_name
+  virtual_network_subnet_name         = "azsnet-bipp-lan"
+  tags                                = var.tags
 }
 
 module "kv" {
   source = "./modules/key_vault"
 
-  key_vault_create        = var.key_vault_create
-  key_vault_name          = var.key_vault_name
-  key_vault_sku           = var.key_vault_sku
-  resource_group_location = module.rg.location
-  resource_group_name     = module.rg.name
-  tags                    = var.tags
+  key_vault_create                    = var.key_vault_create
+  key_vault_name                      = var.key_vault_name
+  key_vault_sku                       = var.key_vault_sku
+  resource_group_location             = module.rg.location
+  resource_group_name                 = module.rg.name
+  virtual_network_name                = var.virtual_network_name
+  virtual_network_resource_group_name = var.virtual_network_resource_group_name
+  virtual_network_subnet_name         = "azsnet-bipp-lan"
+  tags                                = var.tags
 }
 
 module "sa" {
   source = "./modules/storage_account"
 
-  storage_account_create  = var.storage_account_create
-  storage_account_name    = var.storage_account_name
-  resource_group_location = module.rg.location
-  resource_group_name     = module.rg.name
-  tags                    = var.tags
+  storage_account_create              = var.storage_account_create
+  storage_account_name                = var.storage_account_name
+  resource_group_location             = module.rg.location
+  resource_group_name                 = module.rg.name
+  virtual_network_name                = var.virtual_network_name
+  virtual_network_resource_group_name = var.virtual_network_resource_group_name
+  virtual_network_subnet_name         = "azsnet-bipp-lan"
+  tags                                = var.tags
 }
 
 module "ml" {

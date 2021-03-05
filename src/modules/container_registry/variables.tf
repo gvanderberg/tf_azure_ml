@@ -23,6 +23,21 @@ variable "resource_group_name" {
   type        = string
 }
 
+variable "virtual_network_name" {
+  description = "Specifies the name of the Virtual Network this Subnet is located within."
+  type        = string
+}
+
+variable "virtual_network_resource_group_name" {
+  description = "Specifies the name of the resource group the Virtual Network is located in."
+  type        = string
+}
+
+variable "virtual_network_subnet_name" {
+  description = "Specifies the name of the Subnet."
+  type        = string
+}
+
 variable "tags" {
   description = "A mapping of tags to assign to the resource."
   type        = map(any)

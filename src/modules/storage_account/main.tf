@@ -1,3 +1,11 @@
+data "azurerm_subnet" "this" {
+  count = var.storage_account_create ? 1 : 0
+
+  name                 = var.virtual_network_subnet_name
+  virtual_network_name = var.virtual_network_name
+  resource_group_name  = var.virtual_network_resource_group_name
+}
+
 data "azurerm_storage_account" "this" {
   count = var.storage_account_create ? 0 : 1
 
@@ -12,7 +20,7 @@ resource "azurerm_storage_account" "this" {
   location                 = var.resource_group_location
   resource_group_name      = var.resource_group_name
   account_tier             = "Standard"
-  account_replication_type = "GRS"
+  account_replication_type = "LRS"
   min_tls_version          = "TLS1_2"
 
   identity {
@@ -20,10 +28,10 @@ resource "azurerm_storage_account" "this" {
   }
 
   network_rules {
-    default_action = "Allow"
-    bypass         = ["AzureServices", "Logging", "Metrics"]
-    # ip_rules                   = []
-    # virtual_network_subnet_ids = []
+    bypass                     = ["AzureServices", "Logging", "Metrics"]
+    default_action             = "Deny"
+    ip_rules                   = []
+    virtual_network_subnet_ids = [data.azurerm_subnet.this[count.index].id]
   }
 
   tags = var.tags
