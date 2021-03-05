@@ -1,39 +1,44 @@
+pool:
+  vmImage: ubuntu-latest
+
 pr: none
 
 trigger:
   batch: true
   branches:
     include:
-    - master
+      - master
 
 variables:
-- name: tags_location
-  value: $(location)
-- name: tags_managed_by
-  value: $(managed_by)
+  - name: tags_location
+    value: $(location)
+  - name: tags_managed_by
+    value: $(managed-by)
+  - name: terraform_version
+    value: "0.14.6"
 
 stages:
-- template: build-stage.yml
-  parameters:
-    displayName: package scripts
-    stageName: package
-    pathtoPublish: $(Build.SourcesDirectory)/src
+  - template: build-stage.yml
+    parameters:
+      displayName: package scripts
+      stageName: package
+      pathtoPublish: $(Build.SourcesDirectory)/src
 
-- template: release-stage.yml
-  parameters:
-    condition: succeeded()
-    dependsOn: package
-    displayName: release dev (southafricanorth)
-    environment: dev (southafricanorth)
-    stageName: release_dev_we
-    variableTemplate: release-variables-zn-prd.yml
+  - template: release-stage.yml
+    parameters:
+      condition: succeeded()
+      dependsOn: package
+      displayName: release dev ($(location))
+      environment: dev ($(location))
+      stageName: release_dev_we
+      variableTemplate: release-variables-we-prd.yml
 
-- template: terraform-stage.yml
-  parameters:
-    condition: succeeded()
-    dependsOn: package
-    displayName: destroy dev (southafricanorth)
-    environment: dev (southafricanorth)
-    stageName: destroy_dev_we
-    templateName: terraform-steps-destroy.yml
-    variableTemplate: release-variables-zn-prd.yml
+  - template: terraform-stage.yml
+    parameters:
+      condition: succeeded()
+      dependsOn: package
+      displayName: destroy dev ($(location))
+      environment: dev ($(location))
+      stageName: destroy_dev_we
+      templateName: terraform-steps-destroy.yml
+      variableTemplate: release-variables-we-prd.yml

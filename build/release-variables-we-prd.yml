@@ -5,19 +5,19 @@ variables:
   - name: analytics_workspace_sku
     value: free
   - name: container_registry_id
-    value:  
+    value:
   - name: kubernetes_cluster_name
-    value: azks-prd-zn-titansoft
+    value: azks-prd-we-titansoft
   - name: kubernetes_dashboard_enabled
     value: true
   - name: kubernetes_version
-    value: 1.18.10
+    value: "1.19.7"
   - name: location
-    value: southafricanorth
+    value: westeurope
   - name: resource_group_create
     value: true
   - name: resource_group_name
-    value: azrg-prd-zn-titansoft
+    value: azrg-prd-we-titansoft
   - name: subnet_name
     value: azsnet-prd-zn-k8s
   - name: subnet_resource_group_name
@@ -29,4 +29,4 @@ variables:
   - name: virtual_machine_size
     value: Standard_B2s
   - name: workspace_name
-    value: kubernetes-zn-prd
+    value: machine-learning-we-prd

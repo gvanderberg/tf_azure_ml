@@ -3,5 +3,5 @@ steps:
       set -e
 
       echo 'fqdn = "$(fqdn)"'
-    displayName: 'terraform test'
-    name: 'terraformTest'
+    displayName: "terraform test"
+    name: "terraformTest"
