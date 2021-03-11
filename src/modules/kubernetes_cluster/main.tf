@@ -1,12 +1,17 @@
+data "azuread_group" "this" {
+  display_name     = "K8S Administrators Security Group"
+  security_enabled = true
+}
+
 data "azurerm_subnet" "this" {
-  name                 = var.subnet_name
-  virtual_network_name = var.subnet_virtual_network_name
-  resource_group_name  = var.subnet_resource_group_name
+  name                 = var.virtual_network_subnet_name
+  virtual_network_name = var.virtual_network_name
+  resource_group_name  = var.virtual_network_resource_group_name
 }
 
 data "azurerm_virtual_network" "this" {
-  name                = var.subnet_virtual_network_name
-  resource_group_name = var.subnet_resource_group_name
+  name                = var.virtual_network_name
+  resource_group_name = var.virtual_network_resource_group_name
 }
 
 resource "azurerm_kubernetes_cluster" "this" {
@@ -70,18 +75,18 @@ resource "azurerm_kubernetes_cluster" "this" {
   }
 
   network_profile {
-    network_plugin     = "azure"
-    network_policy     = "azure"
+    network_plugin = "azure"
+    network_policy = "azure"
     # dns_service_ip     = var.dns_service_ip
     # docker_bridge_cidr = var.docker_bridge_cidr
-    load_balancer_sku  = "standard"
+    load_balancer_sku = "standard"
     # service_cidr       = var.service_cidr
   }
 
   role_based_access_control {
     azure_active_directory {
-      managed                 = true
-      admin_group_object_ids  = [data.azuread_group.this.id]
+      managed                = true
+      admin_group_object_ids = [data.azuread_group.this.id]
     }
     enabled = true
   }

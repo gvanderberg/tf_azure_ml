@@ -23,9 +23,9 @@ variable "docker_bridge_cidr" {
   type        = string
 }
 
-variable "docker_config_json" {
-  description = "The base64 representation of your Docker credentials."
-  type        = string
+variable "kubernetes_cluster_create" {
+  description = "Should the Managed Kubernetes Cluster be created."
+  type        = bool
 }
 
 variable "kubernetes_cluster_name" {
@@ -33,18 +33,8 @@ variable "kubernetes_cluster_name" {
   type        = string
 }
 
-variable "kubernetes_dashboard_enabled" {
-  description = "Is the Kubernetes Dashboard enabled?"
-  type        = string
-}
-
 variable "kubernetes_version" {
   description = "Version of Kubernetes specified when creating the AKS managed cluster."
-  type        = string
-}
-
-variable "load_balancer_ip" {
-  description = "Specifies the IP address of the Load Balancer used for this Kubernetes Cluster."
   type        = string
 }
 
@@ -73,34 +63,29 @@ variable "service_cidr" {
   type        = string
 }
 
-variable "slack_username" {
-  description = "Slack Username."
-  type        = string
-}
-
 variable "ssh_key_data" {
   description = "The Public SSH Key used to access the cluster."
   type        = string
 }
 
-variable "subnet_name" {
-  description = "Specifies the name of the Subnet."
-  type        = string
-}
-
-variable "subnet_virtual_network_name" {
+variable "virtual_network_name" {
   description = "Specifies the name of the Virtual Network this Subnet is located within."
   type        = string
 }
 
-variable "subnet_resource_group_name" {
+variable "virtual_network_resource_group_name" {
   description = "Specifies the name of the resource group the Virtual Network is located in."
+  type        = string
+}
+
+variable "virtual_network_subnet_name" {
+  description = "Specifies the name of the Subnet."
   type        = string
 }
 
 variable "tags" {
   description = "A mapping of tags to assign to the resource"
-  type        = map
+  type        = map(any)
 }
 
 variable "vm_size" {

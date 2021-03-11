@@ -1,3 +1,7 @@
+variable "admin_password" {
+  default = "__admin_password__"
+}
+
 variable "application_insights_create" {
   default = "__application_insights_create__"
 }
@@ -6,16 +10,20 @@ variable "application_insights_name" {
   default = "__application_insights_name__"
 }
 
-variable "container_registry_create" {
-  default = "__container_registry_create__"
-}
+# variable "container_registry_create" {
+#   default = "__container_registry_create__"
+# }
 
-variable "container_registry_name" {
-  default = "__container_registry_name__"
-}
+# variable "container_registry_name" {
+#   default = "__container_registry_name__"
+# }
 
-variable "container_registry_sku" {
-  default = "__container_registry_sku__"
+# variable "container_registry_sku" {
+#   default = "__container_registry_sku__"
+# }
+
+variable "container_registry_id" {
+  default = "__container_registry_id__"
 }
 
 variable "key_vault_create" {
@@ -30,8 +38,24 @@ variable "key_vault_sku" {
   default = "__key_vault_sku__"
 }
 
+variable "kubernetes_cluster_create" {
+  default = "__kubernetes_cluster_create__"
+}
+
+variable "kubernetes_cluster_name" {
+  default = "__kubernetes_cluster_name__"
+}
+
+variable "kubernetes_version" {
+  default = "__kubernetes_version__"
+}
+
 variable "location" {
   default = "__location__"
+}
+
+variable "log_analytics_workspace_id" {
+  default = "__log_analytics_workspace_id__"
 }
 
 variable "machine_learning_create" {
@@ -52,6 +76,10 @@ variable "resource_group_create" {
 
 variable "resource_group_name" {
   default = "__resource_group_name__"
+}
+
+variable "ssh_key_data" {
+  default = "__ssh_key_data__"
 }
 
 variable "storage_account_create" {

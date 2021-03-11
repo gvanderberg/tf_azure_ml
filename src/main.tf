@@ -2,16 +2,6 @@ terraform {
   backend "local" {}
 }
 
-# module "net" {
-#   source = "./modules/virtual_network"
-
-#   virtual_network_create  = var.virtual_network_create
-#   virtual_network_name    = var.virtual_network_name
-#   resource_group_name     = var.virtual_network_resource_group_name
-#   resource_group_location = var.location
-#   tags                    = var.tags
-# }
-
 module "rg" {
   source = "./modules/resource_group"
 
@@ -31,17 +21,41 @@ module "ai" {
   tags                        = var.tags
 }
 
-module "cr" {
-  source = "./modules/container_registry"
+# module "cr" {
+#   source = "./modules/container_registry"
 
-  container_registry_create           = var.container_registry_create
-  container_registry_name             = var.container_registry_name
-  container_registry_sku              = var.container_registry_sku
+#   container_registry_create           = var.container_registry_create
+#   container_registry_name             = var.container_registry_name
+#   container_registry_sku              = var.container_registry_sku
+#   resource_group_location             = module.rg.location
+#   resource_group_name                 = module.rg.name
+#   virtual_network_name                = var.virtual_network_name
+#   virtual_network_resource_group_name = var.virtual_network_resource_group_name
+#   virtual_network_subnet_name         = "azsnet-bipp-lan"
+#   tags                                = var.tags
+# }
+
+module "ks" {
+  source = "./modules/kubernetes_cluster"
+
+  kubernetes_cluster_create           = var.kubernetes_cluster_create
+  kubernetes_cluster_name             = var.kubernetes_cluster_name
+  kubernetes_version                  = var.kubernetes_version
   resource_group_location             = module.rg.location
   resource_group_name                 = module.rg.name
+  admin_password                      = var.admin_password
+  admin_username                      = "azuresupport"
+  container_registry_id               = var.container_registry_id
+  dns_service_ip                      = ""
+  docker_bridge_cidr                  = ""
+  log_analytics_workspace_id          = var.log_analytics_workspace_id
+  node_count                          = 3
+  service_cidr                        = ""
+  ssh_key_data                        = var.ssh_key_data
   virtual_network_name                = var.virtual_network_name
   virtual_network_resource_group_name = var.virtual_network_resource_group_name
   virtual_network_subnet_name         = "azsnet-bipp-lan"
+  vm_size                             = "Standard_B4ms"
   tags                                = var.tags
 }
 
@@ -81,7 +95,7 @@ module "ml" {
   resource_group_location = module.rg.location
   resource_group_name     = module.rg.name
   application_insights_id = module.ai.id
-  container_registry_id   = module.cr.id
+  container_registry_id   = var.container_registry_id //module.cr.id
   key_vault_id            = module.kv.id
   storage_account_id      = module.sa.id
   tags                    = var.tags
