@@ -45,13 +45,13 @@ resource "azurerm_kubernetes_cluster" "this" {
   }
 
   default_node_pool {
-    name                  = "default"
-    enable_auto_scaling   = false
+    name                  = "agentpool"
+    enable_auto_scaling   = var.enable_auto_scaling
     enable_node_public_ip = false
     availability_zones    = [1, 2, 3]
-    max_pods              = "110"
-    max_count             = var.node_count + 2
-    min_count             = var.node_count
+    max_pods              = "30"
+    max_count             = var.enable_auto_scaling ? var.node_count + 2 : null
+    min_count             = var.enable_auto_scaling ? var.node_count : null
     node_count            = var.node_count
     type                  = "VirtualMachineScaleSets"
     vm_size               = var.vm_size

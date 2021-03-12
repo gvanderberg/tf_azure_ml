@@ -1,5 +1,5 @@
 terraform {
-  backend "local" {}
+  backend "remote" {}
 }
 
 module "rg" {
@@ -44,10 +44,11 @@ module "ks" {
   resource_group_location             = module.rg.location
   resource_group_name                 = module.rg.name
   admin_password                      = var.admin_password
-  admin_username                      = "azuresupport"
+  admin_username                      = var.admin_username
   container_registry_id               = var.container_registry_id
   dns_service_ip                      = ""
   docker_bridge_cidr                  = ""
+  enable_auto_scaling                 = false
   log_analytics_workspace_id          = var.log_analytics_workspace_id
   node_count                          = 3
   service_cidr                        = ""

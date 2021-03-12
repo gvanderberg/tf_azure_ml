@@ -23,6 +23,11 @@ variable "docker_bridge_cidr" {
   type        = string
 }
 
+variable "enable_auto_scaling" {
+  description = "Should the Kubernetes Auto Scaler be enabled for this Node Pool?"
+  type        = string
+}
+
 variable "kubernetes_cluster_create" {
   description = "Should the Managed Kubernetes Cluster be created."
   type        = bool

@@ -2,6 +2,10 @@ variable "admin_password" {
   default = "__admin_password__"
 }
 
+variable "admin_username" {
+  default = "__admin_username__"
+}
+
 variable "application_insights_create" {
   default = "__application_insights_create__"
 }
