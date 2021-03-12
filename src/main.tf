@@ -21,20 +21,6 @@ module "ai" {
   tags                        = var.tags
 }
 
-# module "cr" {
-#   source = "./modules/container_registry"
-
-#   container_registry_create           = var.container_registry_create
-#   container_registry_name             = var.container_registry_name
-#   container_registry_sku              = var.container_registry_sku
-#   resource_group_location             = module.rg.location
-#   resource_group_name                 = module.rg.name
-#   virtual_network_name                = var.virtual_network_name
-#   virtual_network_resource_group_name = var.virtual_network_resource_group_name
-#   virtual_network_subnet_name         = "azsnet-bipp-lan"
-#   tags                                = var.tags
-# }
-
 module "ks" {
   source = "./modules/kubernetes_cluster"
 
@@ -96,7 +82,7 @@ module "ml" {
   resource_group_location = module.rg.location
   resource_group_name     = module.rg.name
   application_insights_id = module.ai.id
-  container_registry_id   = var.container_registry_id //module.cr.id
+  container_registry_id   = var.container_registry_id
   key_vault_id            = module.kv.id
   storage_account_id      = module.sa.id
   tags                    = var.tags
