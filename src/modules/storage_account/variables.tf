@@ -28,9 +28,9 @@ variable "virtual_network_resource_group_name" {
   type        = string
 }
 
-variable "virtual_network_subnet_name" {
+variable "virtual_network_subnet_names" {
   description = "Specifies the name of the Subnet."
-  type        = string
+  type        = list(string)
 }
 
 variable "tags" {

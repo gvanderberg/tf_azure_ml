@@ -1,7 +1,7 @@
 data "azurerm_subnet" "this" {
-  count = var.storage_account_create ? 1 : 0
+  count = var.storage_account_create ? length(var.virtual_network_subnet_names) : 0
 
-  name                 = var.virtual_network_subnet_name
+  name                 = trimspace(var.virtual_network_subnet_names[count.index])
   virtual_network_name = var.virtual_network_name
   resource_group_name  = var.virtual_network_resource_group_name
 }
@@ -31,7 +31,7 @@ resource "azurerm_storage_account" "this" {
     bypass                     = ["AzureServices", "Logging", "Metrics"]
     default_action             = "Deny"
     ip_rules                   = []
-    virtual_network_subnet_ids = [data.azurerm_subnet.this[count.index].id]
+    virtual_network_subnet_ids = data.azurerm_subnet.this.*.id
   }
 
   tags = var.tags

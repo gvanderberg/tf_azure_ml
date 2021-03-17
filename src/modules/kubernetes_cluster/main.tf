@@ -1,20 +1,34 @@
 data "azuread_group" "this" {
+  count = var.kubernetes_cluster_create ? 1 : 0
+
   display_name     = "K8S Administrators Security Group"
   security_enabled = true
 }
 
 data "azurerm_subnet" "this" {
+  count = var.kubernetes_cluster_create ? 1 : 0
+
   name                 = var.virtual_network_subnet_name
   virtual_network_name = var.virtual_network_name
   resource_group_name  = var.virtual_network_resource_group_name
 }
 
 data "azurerm_virtual_network" "this" {
+  count = var.kubernetes_cluster_create ? 1 : 0
+
   name                = var.virtual_network_name
   resource_group_name = var.virtual_network_resource_group_name
 }
 
 resource "azurerm_kubernetes_cluster" "this" {
+  count = var.kubernetes_cluster_create ? 1 : 0
+
+  lifecycle {
+    ignore_changes = [
+      api_server_authorized_ip_ranges
+    ]
+  }
+
   name                            = var.kubernetes_cluster_name
   resource_group_name             = var.resource_group_name
   location                        = var.resource_group_location
@@ -55,7 +69,7 @@ resource "azurerm_kubernetes_cluster" "this" {
     node_count            = var.node_count
     type                  = "VirtualMachineScaleSets"
     vm_size               = var.vm_size
-    vnet_subnet_id        = data.azurerm_subnet.this.id
+    vnet_subnet_id        = data.azurerm_subnet.this[count.index].id
   }
 
   identity {
@@ -86,7 +100,7 @@ resource "azurerm_kubernetes_cluster" "this" {
   role_based_access_control {
     azure_active_directory {
       managed                = true
-      admin_group_object_ids = [data.azuread_group.this.id]
+      admin_group_object_ids = [data.azuread_group.this[count.index].id]
     }
     enabled = true
   }
@@ -95,25 +109,31 @@ resource "azurerm_kubernetes_cluster" "this" {
 }
 
 resource "azurerm_role_assignment" "aks" {
-  scope                = azurerm_kubernetes_cluster.this.id
+  count = var.kubernetes_cluster_create ? 1 : 0
+
+  scope                = azurerm_kubernetes_cluster.this[count.index].id
   role_definition_name = "Monitoring Metrics Publisher"
-  principal_id         = azurerm_kubernetes_cluster.this.addon_profile[0].oms_agent[0].oms_agent_identity[0].object_id
+  principal_id         = azurerm_kubernetes_cluster.this[count.index].addon_profile[0].oms_agent[0].oms_agent_identity[0].object_id
 
   depends_on = [azurerm_kubernetes_cluster.this]
 }
 
 resource "azurerm_role_assignment" "net" {
-  scope                = data.azurerm_virtual_network.this.id
+  count = var.kubernetes_cluster_create ? 1 : 0
+
+  scope                = data.azurerm_virtual_network.this[count.index].id
   role_definition_name = "Network Contributor"
-  principal_id         = azurerm_kubernetes_cluster.this.identity[0].principal_id
+  principal_id         = azurerm_kubernetes_cluster.this[count.index].identity[0].principal_id
 
   depends_on = [azurerm_kubernetes_cluster.this]
 }
 
 resource "azurerm_role_assignment" "acr" {
+  count = var.kubernetes_cluster_create ? 1 : 0
+
   scope                = var.container_registry_id
   role_definition_name = "AcrPull"
-  principal_id         = azurerm_kubernetes_cluster.this.kubelet_identity[0].object_id
+  principal_id         = azurerm_kubernetes_cluster.this[count.index].kubelet_identity[0].object_id
 
   depends_on = [azurerm_kubernetes_cluster.this]
 }

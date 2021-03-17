@@ -41,7 +41,7 @@ module "ks" {
   ssh_key_data                        = var.ssh_key_data
   virtual_network_name                = var.virtual_network_name
   virtual_network_resource_group_name = var.virtual_network_resource_group_name
-  virtual_network_subnet_name         = "azsnet-bipp-lan"
+  virtual_network_subnet_name         = "azsnet-bipp-mlk8s"
   vm_size                             = "Standard_B4ms"
   tags                                = var.tags
 }
@@ -56,7 +56,7 @@ module "kv" {
   resource_group_name                 = module.rg.name
   virtual_network_name                = var.virtual_network_name
   virtual_network_resource_group_name = var.virtual_network_resource_group_name
-  virtual_network_subnet_name         = "azsnet-bipp-lan"
+  virtual_network_subnet_names        = compact(split(",", "")) // var.virtual_network_subnet_names
   tags                                = var.tags
 }
 
@@ -69,7 +69,7 @@ module "sa" {
   resource_group_name                 = module.rg.name
   virtual_network_name                = var.virtual_network_name
   virtual_network_resource_group_name = var.virtual_network_resource_group_name
-  virtual_network_subnet_name         = "azsnet-bipp-lan"
+  virtual_network_subnet_names        = compact(split(",", "")) // var.virtual_network_subnet_names
   tags                                = var.tags
 }
 
