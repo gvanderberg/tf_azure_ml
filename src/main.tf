@@ -24,26 +24,26 @@ module "ai" {
 module "ks" {
   source = "./modules/kubernetes_cluster"
 
-  kubernetes_cluster_create           = var.kubernetes_cluster_create
-  kubernetes_cluster_name             = var.kubernetes_cluster_name
-  kubernetes_version                  = var.kubernetes_version
-  resource_group_location             = module.rg.location
-  resource_group_name                 = module.rg.name
-  admin_password                      = var.admin_password
-  admin_username                      = var.admin_username
-  container_registry_id               = var.container_registry_id
-  dns_service_ip                      = ""
-  docker_bridge_cidr                  = ""
-  enable_auto_scaling                 = false
-  log_analytics_workspace_id          = var.log_analytics_workspace_id
-  node_count                          = 3
-  service_cidr                        = ""
-  ssh_key_data                        = var.ssh_key_data
-  virtual_network_name                = var.virtual_network_name
-  virtual_network_resource_group_name = var.virtual_network_resource_group_name
-  virtual_network_subnet_name         = "azsnet-bipp-mlk8s"
-  vm_size                             = "Standard_B4ms"
-  tags                                = var.tags
+  kubernetes_cluster_create              = var.kubernetes_cluster_create
+  kubernetes_cluster_name                = var.kubernetes_cluster_name
+  kubernetes_network_name                = var.virtual_network_name
+  kubernetes_network_resource_group_name = var.virtual_network_resource_group_name
+  kubernetes_network_subnet_name         = var.kubernetes_network_subnet_name
+  kubernetes_version                     = var.kubernetes_version
+  resource_group_location                = module.rg.location
+  resource_group_name                    = module.rg.name
+  admin_password                         = var.admin_password
+  admin_username                         = var.admin_username
+  container_registry_id                  = var.container_registry_id
+  dns_service_ip                         = ""
+  docker_bridge_cidr                     = ""
+  enable_auto_scaling                    = false
+  log_analytics_workspace_id             = var.log_analytics_workspace_id
+  node_count                             = 3
+  service_cidr                           = ""
+  ssh_key_data                           = var.ssh_key_data
+  vm_size                                = "Standard_B4ms"
+  tags                                   = var.tags
 }
 
 module "kv" {

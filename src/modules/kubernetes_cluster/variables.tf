@@ -38,6 +38,21 @@ variable "kubernetes_cluster_name" {
   type        = string
 }
 
+variable "kubernetes_network_name" {
+  description = "Specifies the name of the Virtual Network this Subnet is located within."
+  type        = string
+}
+
+variable "kubernetes_network_resource_group_name" {
+  description = "Specifies the name of the resource group the Virtual Network is located in."
+  type        = string
+}
+
+variable "kubernetes_network_subnet_name" {
+  description = "Specifies the name of the Subnet."
+  type        = string
+}
+
 variable "kubernetes_version" {
   description = "Version of Kubernetes specified when creating the AKS managed cluster."
   type        = string
@@ -70,21 +85,6 @@ variable "service_cidr" {
 
 variable "ssh_key_data" {
   description = "The Public SSH Key used to access the cluster."
-  type        = string
-}
-
-variable "virtual_network_name" {
-  description = "Specifies the name of the Virtual Network this Subnet is located within."
-  type        = string
-}
-
-variable "virtual_network_resource_group_name" {
-  description = "Specifies the name of the resource group the Virtual Network is located in."
-  type        = string
-}
-
-variable "virtual_network_subnet_name" {
-  description = "Specifies the name of the Subnet."
   type        = string
 }
 
