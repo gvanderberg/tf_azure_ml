@@ -23,6 +23,11 @@ variable "machine_learning_create" {
   type        = bool
 }
 
+variable "machine_learning_friendly_name" {
+  description = "Friendly name for this Machine Learning Workspace."
+  type        = string
+}
+
 variable "machine_learning_name" {
   description = "Specifies the name of the machine learning workspace."
   type        = string

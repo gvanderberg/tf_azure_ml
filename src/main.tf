@@ -76,14 +76,15 @@ module "sa" {
 module "ml" {
   source = "./modules/machine_learning"
 
-  machine_learning_create = var.machine_learning_create
-  machine_learning_name   = var.machine_learning_name
-  machine_learning_sku    = var.machine_learning_sku
-  resource_group_location = module.rg.location
-  resource_group_name     = module.rg.name
-  application_insights_id = module.ai.id
-  container_registry_id   = var.container_registry_id
-  key_vault_id            = module.kv.id
-  storage_account_id      = module.sa.id
-  tags                    = var.tags
+  machine_learning_create        = var.machine_learning_create
+  machine_learning_name          = var.machine_learning_name
+  machine_learning_friendly_name = var.machine_learning_friendly_name
+  machine_learning_sku           = var.machine_learning_sku
+  resource_group_location        = module.rg.location
+  resource_group_name            = module.rg.name
+  application_insights_id        = module.ai.id
+  container_registry_id          = var.container_registry_id
+  key_vault_id                   = module.kv.id
+  storage_account_id             = module.sa.id
+  tags                           = var.tags
 }

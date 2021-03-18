@@ -14,18 +14,6 @@ variable "application_insights_name" {
   default = "__application_insights_name__"
 }
 
-# variable "container_registry_create" {
-#   default = "__container_registry_create__"
-# }
-
-# variable "container_registry_name" {
-#   default = "__container_registry_name__"
-# }
-
-# variable "container_registry_sku" {
-#   default = "__container_registry_sku__"
-# }
-
 variable "container_registry_id" {
   default = "__container_registry_id__"
 }
@@ -50,6 +38,10 @@ variable "kubernetes_cluster_name" {
   default = "__kubernetes_cluster_name__"
 }
 
+variable "kubernetes_network_subnet_name" {
+  default = "__kubernetes_network_subnet_name__"
+}
+
 variable "kubernetes_version" {
   default = "__kubernetes_version__"
 }
@@ -64,6 +56,10 @@ variable "log_analytics_workspace_id" {
 
 variable "machine_learning_create" {
   default = "__machine_learning_create__"
+}
+
+variable "machine_learning_friendly_name" {
+  default = "__machine_learning_friendly_name__"
 }
 
 variable "machine_learning_name" {
@@ -104,6 +100,10 @@ variable "virtual_network_name" {
 
 variable "virtual_network_resource_group_name" {
   default = "__virtual_network_resource_group_name__"
+}
+
+variable "virtual_network_subnet_names" {
+  default = "__virtual_network_subnet_names__"
 }
 
 variable "tags" {

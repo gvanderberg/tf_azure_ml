@@ -11,6 +11,7 @@ resource "azurerm_machine_learning_workspace" "this" {
   name                    = var.machine_learning_name
   location                = var.resource_group_location
   resource_group_name     = var.resource_group_name
+  friendly_name           = var.machine_learning_friendly_name
   sku_name                = var.machine_learning_sku
   application_insights_id = var.application_insights_id
   container_registry_id   = var.container_registry_id

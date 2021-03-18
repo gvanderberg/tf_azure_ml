@@ -8,16 +8,16 @@ data "azuread_group" "this" {
 data "azurerm_subnet" "this" {
   count = var.kubernetes_cluster_create ? 1 : 0
 
-  name                 = var.virtual_network_subnet_name
-  virtual_network_name = var.virtual_network_name
-  resource_group_name  = var.virtual_network_resource_group_name
+  name                 = var.kubernetes_network_subnet_name
+  virtual_network_name = var.kubernetes_network_name
+  resource_group_name  = var.kubernetes_network_resource_group_name
 }
 
 data "azurerm_virtual_network" "this" {
   count = var.kubernetes_cluster_create ? 1 : 0
 
-  name                = var.virtual_network_name
-  resource_group_name = var.virtual_network_resource_group_name
+  name                = var.kubernetes_network_name
+  resource_group_name = var.kubernetes_network_resource_group_name
 }
 
 resource "azurerm_kubernetes_cluster" "this" {
