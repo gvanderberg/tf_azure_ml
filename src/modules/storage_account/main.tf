@@ -1,7 +1,7 @@
 data "azurerm_subnet" "this" {
   count = var.storage_account_create ? length(var.virtual_network_subnet_names) : 0
 
-  name                 = trimspace(var.virtual_network_subnet_names[count.index])
+  name                 = var.virtual_network_subnet_names[count.index]
   virtual_network_name = var.virtual_network_name
   resource_group_name  = var.virtual_network_resource_group_name
 }

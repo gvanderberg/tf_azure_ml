@@ -3,7 +3,7 @@ data "azurerm_client_config" "this" {}
 data "azurerm_subnet" "this" {
   count = var.key_vault_create ? length(var.virtual_network_subnet_names) : 0
 
-  name                 = trimspace(var.virtual_network_subnet_names[count.index])
+  name                 = var.virtual_network_subnet_names[count.index]
   virtual_network_name = var.virtual_network_name
   resource_group_name  = var.virtual_network_resource_group_name
 }

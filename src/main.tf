@@ -56,7 +56,7 @@ module "kv" {
   resource_group_name                 = module.rg.name
   virtual_network_name                = var.virtual_network_name
   virtual_network_resource_group_name = var.virtual_network_resource_group_name
-  virtual_network_subnet_names        = compact(split(",", var.virtual_network_subnet_names))
+  virtual_network_subnet_names        = compact(split(",", replace(var.virtual_network_subnet_names, " ", "")))
   tags                                = var.tags
 }
 
@@ -69,7 +69,7 @@ module "sa" {
   resource_group_name                 = module.rg.name
   virtual_network_name                = var.virtual_network_name
   virtual_network_resource_group_name = var.virtual_network_resource_group_name
-  virtual_network_subnet_names        = compact(split(",", var.virtual_network_subnet_names))
+  virtual_network_subnet_names        = compact(split(",", replace(var.virtual_network_subnet_names, " ", "")))
   tags                                = var.tags
 }
 
