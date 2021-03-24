@@ -22,7 +22,7 @@ az ml computetarget update aks --name myInferenceCluster --load-balancer-subnet 
 
 #### Connection information
 
-## [Azure CLI](#tab/azure-cli)
+### [Azure CLI](#tab/azure-cli)
 
 If you know the name of the deployed service, use the `az ml service show` command:
 
