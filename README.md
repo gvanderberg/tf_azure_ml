@@ -44,7 +44,6 @@ If authentication is enabled, you can use the `get-keys` method to retrieve a pr
 az ml service get-keys --name myServiceName --resource-group myWSResourceGroup --workspace-name myWorkspace
 ```
 
-> [!IMPORTANT]
 > If you need to regenerate a key, use `regen-key`.
 
 ### Authentication with tokens
@@ -60,7 +59,6 @@ If token authentication is enabled, you can use the `get-access-token` method to
 az ml service get-access-token --name myServiceName --resource-group myWSResourceGroup --workspace-name myWorkspace
 ```
 
-> [!IMPORTANT]
 > Currently the only way to retrieve the token is by using the Azure Machine Learning SDK or the Azure CLI machine learning extension.
 
 # Troubleshooting tips
