@@ -18,11 +18,11 @@ az ml workspace private-endpoint add --resource-group myWSResourceGroup --worksp
 az ml computetarget update aks --name myInferenceCluster --load-balancer-subnet mySubnet --load-balancer-type InternalLoadBalancer --workspace myWorkspace --resource-group myResourceGroup
 ```
 
-# Consume an Azure Machine Learning model deployed as a web service
+## Consume an Azure Machine Learning model deployed as a web service
 
-## Connection information
+#### Connection information
 
-# [Azure CLI](#tab/azure-cli)
+## [Azure CLI](#tab/azure-cli)
 
 If you know the name of the deployed service, use the `az ml service show` command:
 
