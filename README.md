@@ -2,21 +2,44 @@
 
 ## Disable network policies for private endpoints
 
-```bash
+```azurecli
 az network vnet subnet update --name default --resource-group myResourceGroup --vnet-name myVirtualNetwork --disable-private-endpoint-network-policies true
 ```
 
 ## Add a private endpoint to a workspace
 
-```bash
+```azurecli
 az ml workspace private-endpoint add --resource-group myWSResourceGroup --workspace-name myWorkspace --pe-name myPrivateEndpoint --pe-vnet-name myVirtualNetwork --pe-subnet-name mySubnet --pe-resource-group myVNResourceGroup
 ```
 
 ## Internal AKS load balancer
 
-```bash
+```azurecli
 az ml computetarget update aks --name myInferenceCluster --load-balancer-subnet mySubnet --load-balancer-type InternalLoadBalancer --workspace myWorkspace --resource-group myResourceGroup
 ```
+
+# Consume an Azure Machine Learning model deployed as a web service
+
+## Connection information
+
+# [Azure CLI](#tab/azure-cli)
+
+If you know the name of the deployed service, use the `az ml service show` command:
+
+```azurecli
+az ml service list --resource-group myWSResourceGroup --workspace-name myWorkspace
+az ml service show --name myServiceName --resource-group myWSResourceGroup --workspace-name myWorkspace
+```
+
+#### Authentication with tokens
+
+If you have the `Azure CLI and the machine learning extension`, you can use the following command to get a token:
+
+```azurecli
+az ml service get-access-token --name myServiceName --resource-group myWSResourceGroup --workspace-name myWorkspace
+```
+
+# Troubleshooting tips
 
 Most users are able to resolve issues concerning consuming endpoints by using the following steps.
 
