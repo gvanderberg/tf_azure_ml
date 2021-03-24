@@ -31,13 +31,37 @@ az ml service list --resource-group myWSResourceGroup --workspace-name myWorkspa
 az ml service show --name myServiceName --resource-group myWSResourceGroup --workspace-name myWorkspace
 ```
 
+### Authentication with keys
+
+When you enable authentication for a deployment, you automatically create authentication keys.
+
+* Authentication is enabled by default when you are deploying to Azure Kubernetes Service.
+* Authentication is disabled by default when you are deploying to Azure Container Instances.
+
+If authentication is enabled, you can use the `get-keys` method to retrieve a primary and secondary authentication key:
+
+```azurecli
+az ml service get-keys --name myServiceName --resource-group myWSResourceGroup --workspace-name myWorkspace
+```
+
+> [!IMPORTANT]
+> If you need to regenerate a key, use `regen-key`.
+
 ### Authentication with tokens
 
-If you have the `Azure CLI and the machine learning extension`, you can use the following command to get a token:
+When you enable token authentication for a web service, a user must provide an Azure Machine Learning JWT token to the web service to access it. 
+
+* Token authentication is disabled by default when you are deploying to Azure Kubernetes Service.
+* Token authentication is not supported when you are deploying to Azure Container Instances.
+
+If token authentication is enabled, you can use the `get-access-token` method to retrieve a bearer token and that tokens expiration time:
 
 ```azurecli
 az ml service get-access-token --name myServiceName --resource-group myWSResourceGroup --workspace-name myWorkspace
 ```
+
+> [!IMPORTANT]
+> Currently the only way to retrieve the token is by using the Azure Machine Learning SDK or the Azure CLI machine learning extension.
 
 # Troubleshooting tips
 
