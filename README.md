@@ -18,7 +18,7 @@ az ml workspace private-endpoint add --resource-group myWSResourceGroup --worksp
 az ml computetarget update aks --name myInferenceCluster --load-balancer-subnet mySubnet --load-balancer-type InternalLoadBalancer --workspace myWorkspace --resource-group myResourceGroup
 ```
 
-## Consume an Azure Machine Learning model deployed as a web service
+## [Consume an Azure Machine Learning model deployed as a web service](https://docs.microsoft.com/en-us/azure/machine-learning/how-to-consume-web-service)
 
 ### Connection information
 
