@@ -20,9 +20,9 @@ az ml computetarget update aks --name myInferenceCluster --load-balancer-subnet 
 
 ## Consume an Azure Machine Learning model deployed as a web service
 
-#### Connection information
+### Connection information
 
-### [Azure CLI](#tab/azure-cli)
+#### [Azure CLI](#tab/azure-cli)
 
 If you know the name of the deployed service, use the `az ml service show` command:
 
@@ -31,7 +31,7 @@ az ml service list --resource-group myWSResourceGroup --workspace-name myWorkspa
 az ml service show --name myServiceName --resource-group myWSResourceGroup --workspace-name myWorkspace
 ```
 
-#### Authentication with tokens
+### Authentication with tokens
 
 If you have the `Azure CLI and the machine learning extension`, you can use the following command to get a token:
 
