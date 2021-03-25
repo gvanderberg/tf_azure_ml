@@ -9,13 +9,13 @@ az network vnet subnet update --name default --resource-group myResourceGroup --
 ## Add a private endpoint to a workspace
 
 ```azurecli
-az ml workspace private-endpoint add --resource-group myWSResourceGroup --workspace-name myWorkspace --pe-name myPrivateEndpoint --pe-vnet-name myVirtualNetwork --pe-subnet-name mySubnet --pe-resource-group myVNResourceGroup
+az ml workspace private-endpoint add --resource-group myWSResourceGroup --workspace-name myWorkspaceName --pe-name myPrivateEndpoint --pe-vnet-name myVirtualNetwork --pe-subnet-name mySubnet --pe-resource-group myVNResourceGroup
 ```
 
 ## Internal AKS load balancer
 
 ```azurecli
-az ml computetarget update aks --name myInferenceCluster --load-balancer-subnet mySubnet --load-balancer-type InternalLoadBalancer --workspace myWorkspace --resource-group myResourceGroup
+az ml computetarget update aks --name myInferenceCluster --load-balancer-subnet mySubnet --load-balancer-type InternalLoadBalancer --workspace myWorkspaceName --resource-group myResourceGroup
 ```
 
 ## [Consume an Azure Machine Learning model deployed as a web service](https://docs.microsoft.com/en-us/azure/machine-learning/how-to-consume-web-service)
@@ -27,7 +27,7 @@ az ml computetarget update aks --name myInferenceCluster --load-balancer-subnet 
 If you know the name of the deployed service, you can create a new instance of `Webservice`, and provide the workspace and service name as parameters. The new object contains information about the deployed service.:
 
 ```python
-service = Webservice(workspace=ws, name='myServiceName')
+service = Webservice(workspace='myWorkspaceName', name='myServiceName')
 print(service.scoring_uri)
 print(service.swagger_uri)
 ```
@@ -37,8 +37,8 @@ print(service.swagger_uri)
 If you know the name of the deployed service, use the `az ml service show` command:
 
 ```azurecli
-az ml service list --resource-group myWSResourceGroup --workspace-name myWorkspace
-az ml service show --name myServiceName --resource-group myWSResourceGroup --workspace-name myWorkspace
+az ml service list --resource-group myWSResourceGroup --workspace-name myWorkspaceName
+az ml service show --name myServiceName --resource-group myWSResourceGroup --workspace-name myWorkspaceName
 ```
 
 ### Authentication with keys
@@ -51,7 +51,7 @@ When you enable authentication for a deployment, you automatically create authen
 If authentication is enabled, you can use the `get-keys` method to retrieve a primary and secondary authentication key:
 
 ```azurecli
-az ml service get-keys --name myServiceName --resource-group myWSResourceGroup --workspace-name myWorkspace
+az ml service get-keys --name myServiceName --resource-group myWSResourceGroup --workspace-name myWorkspaceName
 ```
 
 > If you need to regenerate a key, use `regen-key`.
@@ -66,7 +66,7 @@ When you enable token authentication for a web service, a user must provide an A
 If token authentication is enabled, you can use the `get-access-token` method to retrieve a bearer token and that tokens expiration time:
 
 ```azurecli
-az ml service get-access-token --name myServiceName --resource-group myWSResourceGroup --workspace-name myWorkspace
+az ml service get-access-token --name myServiceName --resource-group myWSResourceGroup --workspace-name myWorkspaceName
 ```
 
 > Currently the only way to retrieve the token is by using the Azure Machine Learning SDK or the Azure CLI machine learning extension.
