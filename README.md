@@ -50,6 +50,11 @@ When you enable authentication for a deployment, you automatically create authen
 
 If authentication is enabled, you can use the `get-keys` method to retrieve a primary and secondary authentication key:
 
+```python
+primary, secondary = service.get_keys()
+print(primary)
+```
+
 ```azurecli
 az ml service get-keys --name myServiceName --resource-group myWSResourceGroup --workspace-name myWorkspaceName
 ```
@@ -64,6 +69,11 @@ When you enable token authentication for a web service, a user must provide an A
 * Token authentication is not supported when you are deploying to Azure Container Instances.
 
 If token authentication is enabled, you can use the `get-access-token` method to retrieve a bearer token and that tokens expiration time:
+
+```python
+token, refresh_by = service.get_token()
+print(token)
+```
 
 ```azurecli
 az ml service get-access-token --name myServiceName --resource-group myWSResourceGroup --workspace-name myWorkspaceName
