@@ -22,6 +22,16 @@ az ml computetarget update aks --name myInferenceCluster --load-balancer-subnet 
 
 ### Connection information
 
+#### [Python](#tab/python)
+
+If you know the name of the deployed service, you can create a new instance of `Webservice`, and provide the workspace and service name as parameters. The new object contains information about the deployed service.:
+
+```python
+service = Webservice(workspace=ws, name='myServiceName')
+print(service.scoring_uri)
+print(service.swagger_uri)
+```
+
 #### [Azure CLI](#tab/azure-cli)
 
 If you know the name of the deployed service, use the `az ml service show` command:
