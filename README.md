@@ -37,7 +37,6 @@ print(service.swagger_uri)
 If you know the name of the deployed service, use the `az ml service show` command:
 
 ```azurecli
-az ml service list --resource-group myWSResourceGroup --workspace-name myWorkspaceName
 az ml service show --name myServiceName --resource-group myWSResourceGroup --workspace-name myWorkspaceName
 ```
 
@@ -50,10 +49,14 @@ When you enable authentication for a deployment, you automatically create authen
 
 If authentication is enabled, you can use the `get-keys` method to retrieve a primary and secondary authentication key:
 
+#### [Python](#tab/python)
+
 ```python
 primary, secondary = service.get_keys()
 print(primary)
 ```
+
+#### [Azure CLI](#tab/azure-cli)
 
 ```azurecli
 az ml service get-keys --name myServiceName --resource-group myWSResourceGroup --workspace-name myWorkspaceName
@@ -70,10 +73,14 @@ When you enable token authentication for a web service, a user must provide an A
 
 If token authentication is enabled, you can use the `get-access-token` method to retrieve a bearer token and that tokens expiration time:
 
+#### [Python](#tab/python)
+
 ```python
 token, refresh_by = service.get_token()
 print(token)
 ```
+
+#### [Azure CLI](#tab/azure-cli)
 
 ```azurecli
 az ml service get-access-token --name myServiceName --resource-group myWSResourceGroup --workspace-name myWorkspaceName
