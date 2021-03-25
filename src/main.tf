@@ -28,7 +28,7 @@ module "ks" {
   kubernetes_cluster_name                = var.kubernetes_cluster_name
   kubernetes_network_name                = var.virtual_network_name
   kubernetes_network_resource_group_name = var.virtual_network_resource_group_name
-  kubernetes_network_subnet_name         = var.kubernetes_network_subnet_name
+  kubernetes_network_subnet_name         = var.kubernetes_subnet_name
   kubernetes_version                     = var.kubernetes_version
   resource_group_location                = module.rg.location
   resource_group_name                    = module.rg.name
@@ -56,7 +56,7 @@ module "kv" {
   resource_group_name                 = module.rg.name
   virtual_network_name                = var.virtual_network_name
   virtual_network_resource_group_name = var.virtual_network_resource_group_name
-  virtual_network_subnet_names        = compact(split(",", replace(var.virtual_network_subnet_names, " ", "")))
+  virtual_network_subnet_names        = [var.machine_learning_subnet_name, var.kubernetes_subnet_name]
   tags                                = var.tags
 }
 
@@ -69,22 +69,25 @@ module "sa" {
   resource_group_name                 = module.rg.name
   virtual_network_name                = var.virtual_network_name
   virtual_network_resource_group_name = var.virtual_network_resource_group_name
-  virtual_network_subnet_names        = compact(split(",", replace(var.virtual_network_subnet_names, " ", "")))
+  virtual_network_subnet_names        = [var.machine_learning_subnet_name, var.kubernetes_subnet_name]
   tags                                = var.tags
 }
 
 module "ml" {
   source = "./modules/machine_learning"
 
-  machine_learning_create        = var.machine_learning_create
-  machine_learning_name          = var.machine_learning_name
-  machine_learning_friendly_name = var.machine_learning_friendly_name
-  machine_learning_sku           = var.machine_learning_sku
-  resource_group_location        = module.rg.location
-  resource_group_name            = module.rg.name
-  application_insights_id        = module.ai.id
-  container_registry_id          = var.container_registry_id
-  key_vault_id                   = module.kv.id
-  storage_account_id             = module.sa.id
-  tags                           = var.tags
+  machine_learning_create             = var.machine_learning_create
+  machine_learning_name               = var.machine_learning_name
+  machine_learning_friendly_name      = var.machine_learning_friendly_name
+  machine_learning_sku                = var.machine_learning_sku
+  resource_group_location             = module.rg.location
+  resource_group_name                 = module.rg.name
+  application_insights_id             = module.ai.id
+  container_registry_id               = var.container_registry_id
+  key_vault_id                        = module.kv.id
+  storage_account_id                  = module.sa.id
+  virtual_network_name                = var.virtual_network_name
+  virtual_network_resource_group_name = var.virtual_network_resource_group_name
+  virtual_network_subnet_name         = var.machine_learning_subnet_name
+  tags                                = var.tags
 }

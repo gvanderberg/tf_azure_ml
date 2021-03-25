@@ -38,8 +38,8 @@ variable "kubernetes_cluster_name" {
   default = "__kubernetes_cluster_name__"
 }
 
-variable "kubernetes_network_subnet_name" {
-  default = "__kubernetes_network_subnet_name__"
+variable "kubernetes_subnet_name" {
+  default = "__kubernetes_subnet_name__"
 }
 
 variable "kubernetes_version" {
@@ -68,6 +68,10 @@ variable "machine_learning_name" {
 
 variable "machine_learning_sku" {
   default = "__machine_learning_sku__"
+}
+
+variable "machine_learning_subnet_name" {
+  default = "__machine_learning_subnet_name__"
 }
 
 variable "resource_group_create" {

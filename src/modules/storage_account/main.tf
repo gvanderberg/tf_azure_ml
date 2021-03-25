@@ -27,12 +27,19 @@ resource "azurerm_storage_account" "this" {
     type = "SystemAssigned"
   }
 
-  network_rules {
-    bypass                     = ["AzureServices", "Logging", "Metrics"]
-    default_action             = "Deny"
-    ip_rules                   = []
-    virtual_network_subnet_ids = data.azurerm_subnet.this.*.id
-  }
-
   tags = var.tags
+}
+
+resource "azurerm_storage_account_network_rules" "this" {
+  count = var.storage_account_create ? 1 : 0
+
+  resource_group_name  = azurerm_storage_account.this[count.index].resource_group_name
+  storage_account_name = azurerm_storage_account.this[count.index].name
+
+  bypass                     = ["AzureServices"]
+  default_action             = "Deny"
+  ip_rules                   = []
+  virtual_network_subnet_ids = data.azurerm_subnet.this.*.id
+
+  depends_on = [azurerm_storage_account.this]
 }
