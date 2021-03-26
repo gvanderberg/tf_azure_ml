@@ -25,11 +25,12 @@ resource "azurerm_key_vault" "this" {
     ]
   }
 
-  name                = var.key_vault_name
-  location            = var.resource_group_location
-  resource_group_name = var.resource_group_name
-  sku_name            = var.key_vault_sku
-  tenant_id           = data.azurerm_client_config.this.tenant_id
+  name                     = var.key_vault_name
+  location                 = var.resource_group_location
+  resource_group_name      = var.resource_group_name
+  purge_protection_enabled = true
+  sku_name                 = var.key_vault_sku
+  tenant_id                = data.azurerm_client_config.this.tenant_id
 
   network_acls {
     bypass                     = "AzureServices"
