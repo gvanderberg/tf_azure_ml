@@ -39,6 +39,7 @@ module "ks" {
   docker_bridge_cidr                     = ""
   enable_auto_scaling                    = false
   log_analytics_workspace_id             = var.log_analytics_workspace_id
+  machine_learning_name                  = module.ml.name
   node_count                             = 3
   service_cidr                           = ""
   ssh_key_data                           = var.ssh_key_data

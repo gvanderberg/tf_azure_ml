@@ -137,3 +137,13 @@ resource "azurerm_role_assignment" "acr" {
 
   depends_on = [azurerm_kubernetes_cluster.this]
 }
+
+resource "null_resource" "this" {
+  count = var.kubernetes_cluster_create ? 1 : 0
+
+  provisioner "local-exec" {
+    command = "az ml computetarget attach aks --name ${azurerm_kubernetes_cluster.this[count.index].name} --compute-resource-id ${azurerm_kubernetes_cluster.this[count.index].id} --resource-group ${var.resource_group_name} --workspace-name ${var.machine_learning_name}"
+  }
+
+  depends_on = [azurerm_kubernetes_cluster.this]
+}

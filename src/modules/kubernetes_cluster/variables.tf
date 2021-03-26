@@ -63,6 +63,11 @@ variable "log_analytics_workspace_id" {
   type        = string
 }
 
+variable "machine_learning_name" {
+  description = "Specifies the name of the machine learning workspace."
+  type        = string
+}
+
 variable "node_count" {
   description = "Number of Agents (VMs) in the Pool. Possible values must be in the range of 1 to 100 (inclusive)."
   type        = string
