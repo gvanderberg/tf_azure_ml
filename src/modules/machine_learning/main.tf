@@ -2,6 +2,13 @@ locals {
   dns_zones = ["privatelink.api.azureml.ms", "privatelink.notebooks.azure.net"]
 }
 
+data "azurerm_machine_learning_workspace" "this" {
+  count = var.machine_learning_create ? 0 : 1
+
+  name                = var.machine_learning_name
+  resource_group_name = var.resource_group_name
+}
+
 data "azurerm_subnet" "this" {
   count = var.machine_learning_create ? 1 : 0
 
@@ -15,13 +22,6 @@ data "azurerm_virtual_network" "this" {
 
   name                = var.virtual_network_name
   resource_group_name = var.virtual_network_resource_group_name
-}
-
-data "azurerm_machine_learning_workspace" "this" {
-  count = var.machine_learning_create ? 0 : 1
-
-  name                = var.machine_learning_name
-  resource_group_name = var.resource_group_name
 }
 
 resource "azurerm_machine_learning_workspace" "this" {
@@ -80,20 +80,20 @@ resource "azurerm_private_dns_zone_virtual_network_link" "this" {
 resource "azurerm_private_endpoint" "this" {
   count = var.machine_learning_create ? 1 : 0
 
-  name                = "azpe-bipp-we-avengers"
+  name                = var.machine_learning_private_endpoint_name
   location            = azurerm_machine_learning_workspace.this[count.index].location
   resource_group_name = azurerm_machine_learning_workspace.this[count.index].resource_group_name
   subnet_id           = data.azurerm_subnet.this[0].id
 
   private_service_connection {
-    name                           = random_string.this.result
+    name                           = var.machine_learning_private_endpoint_name
     private_connection_resource_id = azurerm_machine_learning_workspace.this[0].id
     subresource_names              = ["amlworkspace"]
     is_manual_connection           = false
   }
 
   private_dns_zone_group {
-    name                 = "private-dns-zone-group-ws"
+    name                 = "default"
     private_dns_zone_ids = azurerm_private_dns_zone.this.*.id
   }
 

@@ -66,6 +66,10 @@ variable "machine_learning_name" {
   default = "__machine_learning_name__"
 }
 
+variable "machine_learning_private_endpoint_name" {
+  default = "__machine_learning_private_endpoint_name__"
+}
+
 variable "machine_learning_sku" {
   default = "__machine_learning_sku__"
 }
