@@ -28,7 +28,7 @@ resource "azurerm_key_vault" "this" {
   name                       = format("%s-%s", var.key_vault_name, random_integer.postfix.result)
   location                   = var.resource_group_location
   resource_group_name        = var.resource_group_name
-  purge_protection_enabled   = false
+  purge_protection_enabled   = true
   sku_name                   = var.key_vault_sku
   soft_delete_retention_days = 7
   tenant_id                  = data.azurerm_client_config.this.tenant_id
