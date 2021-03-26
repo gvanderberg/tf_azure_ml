@@ -16,7 +16,7 @@ data "azurerm_storage_account" "this" {
 resource "azurerm_storage_account" "this" {
   count = var.storage_account_create ? 1 : 0
 
-  name                     = var.storage_account_name
+  name                     = format("%s%s", var.storage_account_name, random_integer.postfix.result)
   location                 = var.resource_group_location
   resource_group_name      = var.resource_group_name
   account_tier             = "Standard"

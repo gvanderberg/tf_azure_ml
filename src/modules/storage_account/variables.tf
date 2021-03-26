@@ -1,3 +1,8 @@
+resource "random_integer" "postfix" {
+  min = 1000
+  max = 9999
+}
+
 variable "storage_account_create" {
   description = "Should the storage account be created."
   type        = bool

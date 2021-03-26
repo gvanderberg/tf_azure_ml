@@ -1,3 +1,8 @@
+resource "random_integer" "postfix" {
+  min = 1000
+  max = 9999
+}
+
 variable "resource_group_create" {
   description = "Should the resource group be created."
   type        = bool

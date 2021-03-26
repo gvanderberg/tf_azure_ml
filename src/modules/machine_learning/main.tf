@@ -27,7 +27,7 @@ data "azurerm_virtual_network" "this" {
 resource "azurerm_machine_learning_workspace" "this" {
   count = var.machine_learning_create ? 1 : 0
 
-  name                    = var.machine_learning_name
+  name                    = format("%s-%s", var.machine_learning_name, random_integer.postfix.result)
   location                = var.resource_group_location
   resource_group_name     = var.resource_group_name
   friendly_name           = var.machine_learning_friendly_name
