@@ -52,6 +52,7 @@ module "kv" {
 
   key_vault_create                    = var.key_vault_create
   key_vault_name                      = var.key_vault_name
+  key_vault_private_endpoint_name     = var.machine_learning_private_endpoint_name
   key_vault_sku                       = var.key_vault_sku
   resource_group_location             = module.rg.location
   resource_group_name                 = module.rg.name

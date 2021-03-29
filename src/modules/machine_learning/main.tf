@@ -1,5 +1,6 @@
 locals {
-  dns_zones = ["privatelink.api.azureml.ms", "privatelink.notebooks.azure.net"]
+  dns_zones    = ["privatelink.api.azureml.ms", "privatelink.notebooks.azure.net"]
+  subresources = ["amlworkspace"]
 }
 
 data "azurerm_subnet" "this" {
@@ -80,13 +81,13 @@ resource "azurerm_private_dns_zone_virtual_network_link" "this" {
 resource "azurerm_private_endpoint" "this" {
   count = var.machine_learning_create ? 1 : 0
 
-  name                = var.machine_learning_private_endpoint_name
+  name                = format("%s-%s", var.machine_learning_private_endpoint_name, local.subresources[count.index])
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
   subnet_id           = data.azurerm_subnet.this[0].id
 
   private_service_connection {
-    name                           = var.machine_learning_private_endpoint_name
+    name                           = format("%s-%s", var.machine_learning_private_endpoint_name, local.subresources[count.index])
     private_connection_resource_id = azurerm_machine_learning_workspace.this[0].id
     subresource_names              = ["amlworkspace"]
     is_manual_connection           = false
