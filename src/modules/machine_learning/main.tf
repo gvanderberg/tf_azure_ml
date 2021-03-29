@@ -2,13 +2,6 @@ locals {
   dns_zones = ["privatelink.api.azureml.ms", "privatelink.notebooks.azure.net"]
 }
 
-data "azurerm_machine_learning_workspace" "this" {
-  count = var.machine_learning_create ? 0 : 1
-
-  name                = var.machine_learning_name
-  resource_group_name = var.resource_group_name
-}
-
 data "azurerm_subnet" "this" {
   count = var.machine_learning_create ? 1 : 0
 
@@ -24,10 +17,17 @@ data "azurerm_virtual_network" "this" {
   resource_group_name = var.virtual_network_resource_group_name
 }
 
+data "azurerm_machine_learning_workspace" "this" {
+  count = var.machine_learning_create ? 0 : 1
+
+  name                = var.machine_learning_name
+  resource_group_name = var.resource_group_name
+}
+
 resource "azurerm_machine_learning_workspace" "this" {
   count = var.machine_learning_create ? 1 : 0
 
-  name                    = format("%s-%s", var.machine_learning_name, random_integer.postfix.result)
+  name                    = var.machine_learning_name
   location                = var.resource_group_location
   resource_group_name     = var.resource_group_name
   friendly_name           = var.machine_learning_friendly_name
@@ -58,7 +58,7 @@ resource "azurerm_private_dns_zone" "this" {
   count = var.machine_learning_create ? length(local.dns_zones) : 0
 
   name                = local.dns_zones[count.index]
-  resource_group_name = var.virtual_network_resource_group_name
+  resource_group_name = var.resource_group_name
 }
 
 resource "random_string" "this" {
@@ -70,19 +70,19 @@ resource "azurerm_private_dns_zone_virtual_network_link" "this" {
   count = var.machine_learning_create ? length(azurerm_private_dns_zone.this) : 0
 
   name                  = random_string.this.result
-  resource_group_name   = var.virtual_network_resource_group_name
+  resource_group_name   = var.resource_group_name
   private_dns_zone_name = azurerm_private_dns_zone.this[count.index].name
   virtual_network_id    = data.azurerm_virtual_network.this[0].id
 
-  depends_on = [azurerm_private_dns_zone.this, random_string.this]
+  depends_on = [azurerm_private_dns_zone.this, data.azurerm_virtual_network.this, random_string.this]
 }
 
 resource "azurerm_private_endpoint" "this" {
   count = var.machine_learning_create ? 1 : 0
 
   name                = var.machine_learning_private_endpoint_name
-  location            = azurerm_machine_learning_workspace.this[count.index].location
-  resource_group_name = azurerm_machine_learning_workspace.this[count.index].resource_group_name
+  location            = var.resource_group_location
+  resource_group_name = var.resource_group_name
   subnet_id           = data.azurerm_subnet.this[0].id
 
   private_service_connection {
@@ -97,5 +97,5 @@ resource "azurerm_private_endpoint" "this" {
     private_dns_zone_ids = azurerm_private_dns_zone.this.*.id
   }
 
-  depends_on = [null_resource.this]
+  depends_on = [azurerm_private_dns_zone.this, azurerm_machine_learning_workspace.this, data.azurerm_subnet.this]
 }

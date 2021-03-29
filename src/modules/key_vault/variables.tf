@@ -1,8 +1,3 @@
-resource "random_integer" "postfix" {
-  min = 10
-  max = 99
-}
-
 variable "key_vault_create" {
   description = "Should the key vault be created."
   type        = bool

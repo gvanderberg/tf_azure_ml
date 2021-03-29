@@ -25,7 +25,7 @@ resource "azurerm_key_vault" "this" {
     ]
   }
 
-  name                       = format("%s-%s", var.key_vault_name, random_integer.postfix.result)
+  name                       = var.key_vault_name
   location                   = var.resource_group_location
   resource_group_name        = var.resource_group_name
   purge_protection_enabled   = true

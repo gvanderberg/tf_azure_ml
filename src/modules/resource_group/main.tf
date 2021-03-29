@@ -7,7 +7,7 @@ data "azurerm_resource_group" "this" {
 resource "azurerm_resource_group" "this" {
   count = var.resource_group_create ? 1 : 0
 
-  name     = format("%s-%s", var.resource_group_name, random_integer.postfix.result)
+  name     = var.resource_group_name
   location = var.resource_group_location
   tags     = var.tags
 }

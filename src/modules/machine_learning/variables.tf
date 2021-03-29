@@ -1,8 +1,3 @@
-resource "random_integer" "postfix" {
-  min = 1000
-  max = 9999
-}
-
 variable "application_insights_id" {
   description = "The ID of the Application Insights associated with this machine learning workspace."
   type        = string

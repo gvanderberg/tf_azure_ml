@@ -1,6 +1,11 @@
-resource "random_integer" "postfix" {
-  min = 1000
-  max = 9999
+variable "resource_group_location" {
+  description = "Specifies the supported Azure location where the resource exists."
+  type        = string
+}
+
+variable "resource_group_name" {
+  description = "The name of the resource group in which to create the storage account."
+  type        = string
 }
 
 variable "storage_account_create" {
@@ -13,13 +18,8 @@ variable "storage_account_name" {
   type        = string
 }
 
-variable "resource_group_location" {
-  description = "Specifies the supported Azure location where the resource exists."
-  type        = string
-}
-
-variable "resource_group_name" {
-  description = "The name of the resource group in which to create the storage account."
+variable "storage_account_private_endpoint_name" {
+  description = "Specifies the Name of the Private Endpoint."
   type        = string
 }
 

@@ -64,14 +64,15 @@ module "kv" {
 module "sa" {
   source = "./modules/storage_account"
 
-  storage_account_create              = var.storage_account_create
-  storage_account_name                = var.storage_account_name
-  resource_group_location             = module.rg.location
-  resource_group_name                 = module.rg.name
-  virtual_network_name                = var.virtual_network_name
-  virtual_network_resource_group_name = var.virtual_network_resource_group_name
-  virtual_network_subnet_names        = [var.machine_learning_subnet_name, var.kubernetes_subnet_name]
-  tags                                = var.tags
+  storage_account_create                = var.storage_account_create
+  storage_account_name                  = var.storage_account_name
+  storage_account_private_endpoint_name = var.machine_learning_private_endpoint_name
+  resource_group_location               = module.rg.location
+  resource_group_name                   = module.rg.name
+  virtual_network_name                  = var.virtual_network_name
+  virtual_network_resource_group_name   = var.virtual_network_resource_group_name
+  virtual_network_subnet_names          = [var.machine_learning_subnet_name, var.kubernetes_subnet_name]
+  tags                                  = var.tags
 }
 
 module "ml" {

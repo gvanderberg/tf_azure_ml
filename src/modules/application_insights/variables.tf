@@ -1,8 +1,3 @@
-resource "random_integer" "postfix" {
-  min = 1000
-  max = 9999
-}
-
 variable "application_insights_create" {
   description = "Should the application insights component be created."
   type        = bool
