@@ -63,7 +63,7 @@ resource "azurerm_kubernetes_cluster" "this" {
     enable_auto_scaling   = var.enable_auto_scaling
     enable_node_public_ip = false
     availability_zones    = [1, 2, 3]
-    max_pods              = "30"
+    max_pods              = "110"
     max_count             = var.enable_auto_scaling ? var.node_count + 2 : null
     min_count             = var.enable_auto_scaling ? var.node_count : null
     node_count            = var.node_count
@@ -142,7 +142,7 @@ resource "null_resource" "this" {
   count = var.kubernetes_cluster_create ? 1 : 0
 
   provisioner "local-exec" {
-    command = "az ml computetarget attach aks --name ${azurerm_kubernetes_cluster.this[count.index].name} --compute-resource-id ${azurerm_kubernetes_cluster.this[count.index].id} --resource-group ${var.resource_group_name} --workspace-name ${var.machine_learning_name}"
+    command = "az ml computetarget attach aks --name ic-avengers --compute-resource-id ${azurerm_kubernetes_cluster.this[count.index].id} --resource-group ${var.resource_group_name} --workspace-name ${var.machine_learning_name}"
   }
 
   depends_on = [azurerm_kubernetes_cluster.this]

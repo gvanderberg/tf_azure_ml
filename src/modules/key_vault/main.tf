@@ -56,21 +56,23 @@ resource "azurerm_key_vault" "this" {
 }
 
 resource "azurerm_private_dns_zone" "this" {
-  count = var.key_vault_create ? length(local.dns_zones) : 0
+  count = var.key_vault_create && var.private_endpoint_create ? length(local.dns_zones) : 0
 
   name                = local.dns_zones[count.index]
   resource_group_name = var.resource_group_name
 }
 
 resource "random_string" "this" {
+  count = var.key_vault_create && var.private_endpoint_create ? 1 : 0
+
   length  = 12
   special = false
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "this" {
-  count = var.key_vault_create ? length(azurerm_private_dns_zone.this) : 0
+  count = var.key_vault_create && var.private_endpoint_create ? length(azurerm_private_dns_zone.this) : 0
 
-  name                  = random_string.this.result
+  name                  = random_string.this[0].result
   resource_group_name   = var.resource_group_name
   private_dns_zone_name = azurerm_private_dns_zone.this[count.index].name
   virtual_network_id    = data.azurerm_virtual_network.this[0].id
@@ -79,15 +81,15 @@ resource "azurerm_private_dns_zone_virtual_network_link" "this" {
 }
 
 resource "azurerm_private_endpoint" "this" {
-  count = var.key_vault_create ? length(azurerm_private_dns_zone.this) : 0
+  count = var.key_vault_create && var.private_endpoint_create ? length(azurerm_private_dns_zone.this) : 0
 
-  name                = format("%s-%s", var.key_vault_private_endpoint_name, local.subresources[count.index])
+  name                = format("%s-%s", var.private_endpoint_name, local.subresources[count.index])
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
   subnet_id           = data.azurerm_subnet.this[0].id
 
   private_service_connection {
-    name                           = format("%s-%s", var.key_vault_private_endpoint_name, local.subresources[count.index])
+    name                           = format("%s-%s", var.private_endpoint_name, local.subresources[count.index])
     private_connection_resource_id = azurerm_key_vault.this[0].id
     subresource_names              = [local.subresources[count.index]]
     is_manual_connection           = false

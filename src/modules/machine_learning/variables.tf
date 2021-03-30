@@ -33,13 +33,13 @@ variable "machine_learning_name" {
   type        = string
 }
 
-variable "machine_learning_private_endpoint_name" {
-  description = "Specifies the Name of the Private Endpoint."
+variable "machine_learning_sku" {
+  description = "SKU/edition of the machine learning workspace, possible values are Basic for a basic workspace or Enterprise for a feature rich workspace."
   type        = string
 }
 
-variable "machine_learning_sku" {
-  description = "SKU/edition of the machine learning workspace, possible values are Basic for a basic workspace or Enterprise for a feature rich workspace."
+variable "private_endpoint_name" {
+  description = "Specifies the name of the private endpoint."
   type        = string
 }
 

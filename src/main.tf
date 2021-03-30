@@ -52,10 +52,11 @@ module "kv" {
 
   key_vault_create                    = var.key_vault_create
   key_vault_name                      = var.key_vault_name
-  key_vault_private_endpoint_name     = var.machine_learning_private_endpoint_name
   key_vault_sku                       = var.key_vault_sku
   resource_group_location             = module.rg.location
   resource_group_name                 = module.rg.name
+  private_endpoint_create             = var.private_endpoint_create
+  private_endpoint_name               = var.private_endpoint_name
   virtual_network_name                = var.virtual_network_name
   virtual_network_resource_group_name = var.virtual_network_resource_group_name
   virtual_network_subnet_names        = [var.machine_learning_subnet_name, var.kubernetes_subnet_name]
@@ -65,33 +66,34 @@ module "kv" {
 module "sa" {
   source = "./modules/storage_account"
 
-  storage_account_create                = var.storage_account_create
-  storage_account_name                  = var.storage_account_name
-  storage_account_private_endpoint_name = var.machine_learning_private_endpoint_name
-  resource_group_location               = module.rg.location
-  resource_group_name                   = module.rg.name
-  virtual_network_name                  = var.virtual_network_name
-  virtual_network_resource_group_name   = var.virtual_network_resource_group_name
-  virtual_network_subnet_names          = [var.machine_learning_subnet_name, var.kubernetes_subnet_name]
-  tags                                  = var.tags
+  storage_account_create              = var.storage_account_create
+  storage_account_name                = var.storage_account_name
+  resource_group_location             = module.rg.location
+  resource_group_name                 = module.rg.name
+  private_endpoint_create             = var.private_endpoint_create
+  private_endpoint_name               = var.private_endpoint_name
+  virtual_network_name                = var.virtual_network_name
+  virtual_network_resource_group_name = var.virtual_network_resource_group_name
+  virtual_network_subnet_names        = [var.machine_learning_subnet_name, var.kubernetes_subnet_name]
+  tags                                = var.tags
 }
 
 module "ml" {
   source = "./modules/machine_learning"
 
-  machine_learning_create                = var.machine_learning_create
-  machine_learning_name                  = var.machine_learning_name
-  machine_learning_friendly_name         = var.machine_learning_friendly_name
-  machine_learning_private_endpoint_name = var.machine_learning_private_endpoint_name
-  machine_learning_sku                   = var.machine_learning_sku
-  resource_group_location                = module.rg.location
-  resource_group_name                    = module.rg.name
-  application_insights_id                = module.ai.id
-  container_registry_id                  = var.container_registry_id
-  key_vault_id                           = module.kv.id
-  storage_account_id                     = module.sa.id
-  virtual_network_name                   = var.virtual_network_name
-  virtual_network_resource_group_name    = var.virtual_network_resource_group_name
-  virtual_network_subnet_name            = var.machine_learning_subnet_name
-  tags                                   = var.tags
+  machine_learning_create             = var.machine_learning_create
+  machine_learning_name               = var.machine_learning_name
+  machine_learning_friendly_name      = var.machine_learning_friendly_name
+  machine_learning_sku                = var.machine_learning_sku
+  resource_group_location             = module.rg.location
+  resource_group_name                 = module.rg.name
+  application_insights_id             = module.ai.id
+  container_registry_id               = var.container_registry_id
+  key_vault_id                        = module.kv.id
+  private_endpoint_name               = var.private_endpoint_name
+  storage_account_id                  = module.sa.id
+  virtual_network_name                = var.virtual_network_name
+  virtual_network_resource_group_name = var.virtual_network_resource_group_name
+  virtual_network_subnet_name         = var.machine_learning_subnet_name
+  tags                                = var.tags
 }

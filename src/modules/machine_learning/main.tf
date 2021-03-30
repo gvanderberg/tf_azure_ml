@@ -49,7 +49,7 @@ resource "null_resource" "this" {
   count = var.machine_learning_create ? 1 : 0
 
   provisioner "local-exec" {
-    command = "az ml computetarget create amlcompute --max-nodes 1 --min-nodes 0 --name cc-avengers --vm-size Standard_DS3_v2 --idle-seconds-before-scaledown 600 --assign-identity [system] --vnet-name ${var.virtual_network_name} --subnet-name ${var.virtual_network_subnet_name} --vnet-resourcegroup-name ${var.virtual_network_resource_group_name} --resource-group ${azurerm_machine_learning_workspace.this[count.index].resource_group_name} --workspace-name ${azurerm_machine_learning_workspace.this[count.index].name}"
+    command = "az ml computetarget create amlcompute --max-nodes 5 --min-nodes 0 --name cc-avengers --vm-size Standard_DS3_v2 --idle-seconds-before-scaledown 600 --assign-identity [system] --vnet-name ${var.virtual_network_name} --subnet-name ${var.virtual_network_subnet_name} --vnet-resourcegroup-name ${var.virtual_network_resource_group_name} --resource-group ${azurerm_machine_learning_workspace.this[count.index].resource_group_name} --workspace-name ${azurerm_machine_learning_workspace.this[count.index].name}"
   }
 
   depends_on = [azurerm_machine_learning_workspace.this]
@@ -63,6 +63,8 @@ resource "azurerm_private_dns_zone" "this" {
 }
 
 resource "random_string" "this" {
+  count = var.machine_learning_create ? 1 : 0
+
   length  = 12
   special = false
 }
@@ -81,13 +83,13 @@ resource "azurerm_private_dns_zone_virtual_network_link" "this" {
 resource "azurerm_private_endpoint" "this" {
   count = var.machine_learning_create ? 1 : 0
 
-  name                = format("%s-%s", var.machine_learning_private_endpoint_name, local.subresources[count.index])
+  name                = format("%s-%s", var.private_endpoint_name, local.subresources[count.index])
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
   subnet_id           = data.azurerm_subnet.this[0].id
 
   private_service_connection {
-    name                           = format("%s-%s", var.machine_learning_private_endpoint_name, local.subresources[count.index])
+    name                           = format("%s-%s", var.private_endpoint_name, local.subresources[count.index])
     private_connection_resource_id = azurerm_machine_learning_workspace.this[0].id
     subresource_names              = ["amlworkspace"]
     is_manual_connection           = false

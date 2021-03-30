@@ -1,3 +1,13 @@
+variable "private_endpoint_create" {
+  description = "Should the private endpoint be created."
+  type        = bool
+}
+
+variable "private_endpoint_name" {
+  description = "Specifies the name of the private endpoint."
+  type        = string
+}
+
 variable "resource_group_location" {
   description = "Specifies the supported Azure location where the resource exists."
   type        = string
@@ -15,11 +25,6 @@ variable "storage_account_create" {
 
 variable "storage_account_name" {
   description = "Specifies the name of the storage account."
-  type        = string
-}
-
-variable "storage_account_private_endpoint_name" {
-  description = "Specifies the Name of the Private Endpoint."
   type        = string
 }
 

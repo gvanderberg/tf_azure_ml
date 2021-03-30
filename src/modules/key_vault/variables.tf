@@ -8,13 +8,18 @@ variable "key_vault_name" {
   type        = string
 }
 
-variable "key_vault_private_endpoint_name" {
-  description = "Specifies the Name of the Private Endpoint."
+variable "key_vault_sku" {
+  description = "The Name of the SKU used for this key vault. Possible values are standard and premium."
   type        = string
 }
 
-variable "key_vault_sku" {
-  description = "The Name of the SKU used for this key vault. Possible values are standard and premium."
+variable "private_endpoint_create" {
+  description = "Should the private endpoint be created."
+  type        = bool
+}
+
+variable "private_endpoint_name" {
+  description = "Specifies the name of the private endpoint."
   type        = string
 }
 

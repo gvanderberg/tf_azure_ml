@@ -72,16 +72,20 @@ variable "machine_learning_name" {
   default = "__machine_learning_name__"
 }
 
-variable "machine_learning_private_endpoint_name" {
-  default = "__machine_learning_private_endpoint_name__"
-}
-
 variable "machine_learning_sku" {
   default = "__machine_learning_sku__"
 }
 
 variable "machine_learning_subnet_name" {
   default = "__machine_learning_subnet_name__"
+}
+
+variable "private_endpoint_create" {
+  default = "__private_endpoint_create__"
+}
+
+variable "private_endpoint_name" {
+  default = "__private_endpoint_name__"
 }
 
 variable "resource_group_create" {
