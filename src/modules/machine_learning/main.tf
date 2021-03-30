@@ -72,7 +72,7 @@ resource "random_string" "this" {
 resource "azurerm_private_dns_zone_virtual_network_link" "this" {
   count = var.machine_learning_create ? length(azurerm_private_dns_zone.this) : 0
 
-  name                  = random_string.this.result
+  name                  = random_string.this[0].result
   resource_group_name   = var.resource_group_name
   private_dns_zone_name = azurerm_private_dns_zone.this[count.index].name
   virtual_network_id    = data.azurerm_virtual_network.this[0].id
