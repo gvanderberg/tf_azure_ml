@@ -108,10 +108,6 @@ variable "storage_account_name" {
   default = "__storage_account_name__"
 }
 
-variable "virtual_network_create" {
-  default = "__virtual_network_create__"
-}
-
 variable "virtual_network_name" {
   default = "__virtual_network_name__"
 }
